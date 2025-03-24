@@ -136,10 +136,13 @@ export async function POST(request: Request) {
   }
 
   // Apply rate limiting
-  const identifier = session.user.id;
-  const { success, limit, reset, remaining } =
-    await rateLimiter.limit(identifier);
+  // const identifier = session.user.id;
+  // const { success, limit, reset, remaining } =
+  //   await rateLimiter.limit(identifier);
 
+  
+  const { success, remaining, reset } = await rateLimiter.limit();
+  
   if (!success) {
     return new Response(`Too many requests`, { status: 429 });
   }
